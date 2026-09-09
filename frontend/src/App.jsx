@@ -44,13 +44,30 @@ function App() {
 
   const handleStatusUpdate = async (id, status, resolutionReason = null) => {
     try {
-      await fetch(`${API_URL}/incidents/${id}`, {
+      const response = await fetch(`${API_URL}/incidents/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, resolutionReason })
       });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to update status: ${response.statusText}`);
+      }
+      
+      const updatedIncident = await response.json();
+      
+      // Update local state immediately without waiting for websocket
+      setIncidents(prev => prev.map(inc => 
+        inc._id === updatedIncident._id ? updatedIncident : inc
+      ));
+      
+      // Update selected incident if we're currently viewing it
+      setSelectedIncident(prev => 
+        prev && prev._id === updatedIncident._id ? updatedIncident : prev
+      );
     } catch (err) {
       console.error("Error updating incident:", err);
+      alert("Failed to update incident status. Please try again.");
     }
   };
 
