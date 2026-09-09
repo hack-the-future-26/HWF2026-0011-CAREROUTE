@@ -29,6 +29,7 @@ const IncidentModal = ({ incident, onClose, onUpdateStatus }) => {
     await onUpdateStatus(incident._id, 'RESOLVED', resolutionReason);
     setShowResolutionPrompt(false);
     setIsUpdating(false);
+    onClose(); // Automatically close the modal after resolution
   };
 
   return (

@@ -26,7 +26,7 @@ function App() {
     });
 
     socket.on('incidentUpdated', (updatedIncident) => {
-      setIncidents(prev => prev.map(inc => 
+      console.log('incidentUpdated received:', updatedIncident); setIncidents(prev => prev.map(inc => 
         inc._id === updatedIncident._id ? updatedIncident : inc
       ));
       
