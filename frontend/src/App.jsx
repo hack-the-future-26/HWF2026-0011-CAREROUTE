@@ -7,7 +7,8 @@ import IncidentModal from './components/IncidentModal';
 import { ShieldAlert, Activity } from 'lucide-react';
 import './index.css';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const API_URL = `${BASE_URL}/api`;
 
 function App() {
   const [incidents, setIncidents] = useState([]);
